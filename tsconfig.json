@@ -15,9 +15,8 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "paths": {
-      "@mui/material": ["./node_modules/@mui/joy"]
-    }
+    "types": ["vite/client"],
+    "paths": {"@mui/material": ["./node_modules/@mui/joy"]}
   },
   "include": ["src"]
 }
