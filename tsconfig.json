@@ -14,9 +14,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx",
-    "types": ["vite/client"],
-    "paths": {"@mui/material": ["./node_modules/@mui/joy"]}
+    "jsx": "react-jsx"
   },
   "include": ["src"]
 }

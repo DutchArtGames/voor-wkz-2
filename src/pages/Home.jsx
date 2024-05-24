@@ -1,8 +1,8 @@
 import Typography from '@mui/joy/Typography';
-import IconButton from '@mui/joy/IconButton';
+import IconButton from '@mui/joy/Button';
 import AddIcon from '@mui/icons-material/Add';
 import { Link } from "react-router-dom";
-import { getLocalStoredData } from '../logic/localSave';
+import { getPatientData, getLocalStoredData } from '../logic/localSave';
 import Divider from '@mui/joy/Divider';
 import Modal from '@mui/joy/Modal';
 import ModalClose from '@mui/joy/ModalClose';
@@ -84,11 +84,10 @@ const Home = () => {
 
       <div className="homescherm-buttons-container">
         
-        {/* <Link to="/berekenen-bestaand"> */}
-          <IconButton className="button button-home" sx={{
+        {getLocalStoredData().length !== 0 && <IconButton className="button button-home" sx={{
           backgroundColor : '#FF7A00',
-        }} onClick={() => GegevensInladen()}>Verder gaan met een bestaande patiënt</IconButton>
-        {/* </Link> */}
+        }} onClick={() => GegevensInladen()}>Verder gaan met een bestaande patiënt</IconButton>}
+
         
         <Link to="/berekenen-nieuw">
           <IconButton className="button button-home" sx={{
@@ -111,6 +110,7 @@ const Home = () => {
           <ModalClose  />
           <DialogTitle id="modal-title">Opgeslagen patiënten</DialogTitle>
           {opgeslagenPatienten.length === 0 && <DialogContent id="modal-description">Er zijn geen patiënten opgeslagen</DialogContent>}
+          
           {opgeslagenPatienten.map((patient, i) => (
           <Link key={patient.datum} to="/berekenen-bestaand" state={{ patientId: patient }}>
             <Button className="button" startDecorator={<PersonIcon />} id={i}>{formatDate(patient.substring(20), false)}</Button>
