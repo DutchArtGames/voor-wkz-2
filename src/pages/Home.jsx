@@ -2,7 +2,7 @@ import Typography from '@mui/joy/Typography';
 import IconButton from '@mui/joy/Button';
 import AddIcon from '@mui/icons-material/Add';
 import { Link } from "react-router-dom";
-import { getPatientData, getLocalStoredData } from '../logic/localSave';
+import {  getLocalStoredData } from '../logic/localSave';
 import Divider from '@mui/joy/Divider';
 import Modal from '@mui/joy/Modal';
 import ModalClose from '@mui/joy/ModalClose';
