@@ -158,7 +158,7 @@ export default function CalculatorPage(props) {
         Voedingswaardes:
       </Typography>
       
-      {/* {renderTable(voedingswaardeLijst, gewicht)} */}
+      {renderTable(voedingswaardeTabel)}
     </div>
   );
 
@@ -256,7 +256,7 @@ Natrium Intake: ${voedingswaardeLijst.totaal.koolhydraten} mmol/kg/d`;
 }
 
 //Tijdelijk, totdat de berekenen methode is uitgewerkt en dit makkelijker gemapt kan worden
-export function renderTable(voedingswaardes, gewicht) {
+export function renderTable(voedingswaardes) {
   var enteraal = voedingswaardes.enteraal;
   var parenteraal = voedingswaardes.parenteraal;
   var totaal = voedingswaardes.totaal;
@@ -275,23 +275,23 @@ export function renderTable(voedingswaardes, gewicht) {
           <tr>
             <td>Vocht</td>
             <td>totaal/dag</td>
-            <td>{totaal.hoeveelheid}</td>
-            <td>{enteraal.hoeveelheid}</td>
-            <td>{parenteraal.hoeveelheid}</td>
+            <td>{totaal.vochtTotaal}</td>
+            <td>{enteraal.vochtTotaal}</td>
+            <td>{parenteraal.vochtTotaal}</td>
           </tr>
           <tr className="tabel-dikgedrukt" >
             <td></td>
             <td>mL/kg/dag</td>
-            <td>{(totaal.hoeveelheid / gewicht).toFixed(2)}</td>
-            <td>{(enteraal.hoeveelheid / gewicht).toFixed(2)}</td>
-            <td>{(parenteraal.hoeveelheid / gewicht).toFixed(2)}</td>
+            <td>{totaal.vochtKGPerDag}</td>
+            <td>{enteraal.vochtKGPerDag}</td>
+            <td>{parenteraal.vochtKGPerDag}</td>
           </tr>
           <tr>
             <td></td>
             <td>mL/kg/uur</td>
-            <td>{((totaal.hoeveelheid / gewicht)/ 24).toFixed(1)}</td>
-            <td>{((enteraal.hoeveelheid / gewicht).toFixed(2) / 24).toFixed(1)}</td>
-            <td>{((parenteraal.hoeveelheid / gewicht).toFixed(2) / 24).toFixed(1)}</td>
+            <td>{totaal.vochtKGPerUur}</td>
+            <td>{enteraal.vochtKGPerUur}</td>
+            <td>{parenteraal.vochtKGPerUur}</td>
           </tr>
           <tr>
             <td colspan="5"></td>
@@ -300,16 +300,16 @@ export function renderTable(voedingswaardes, gewicht) {
           <tr>
             <td>Calorisch</td>
             <td>totaal/dag</td>
-            <td>{totaal.calorieën}</td>
-            <td>{enteraal.calorieën}</td>
-            <td>{parenteraal.calorieën}</td>
+            <td>{totaal.calorieënTotaal}</td>
+            <td>{enteraal.calorieënTotaal}</td>
+            <td>{parenteraal.calorieënTotaal}</td>
           </tr>
           <tr className="tabel-dikgedrukt" >
             <td></td>
             <td>kcal/kg/dag</td>
-            <td>{(totaal.calorieën / gewicht).toFixed(2)}</td>
-            <td>{(enteraal.calorieën / gewicht).toFixed(2)}</td>
-            <td>{(parenteraal.calorieën / gewicht).toFixed(2)}</td>
+            <td>{totaal.calorieënPerKG}</td>
+            <td>{enteraal.calorieënPerKG}</td>
+            <td>{parenteraal.calorieënPerKG}</td>
           </tr>
           <tr>
              <td colspan="5"></td>
@@ -318,40 +318,40 @@ export function renderTable(voedingswaardes, gewicht) {
           <tr className="tabel-dikgedrukt" >
             <td className="tabel-dikgedrukt" >Koolhydraat</td>
             <td>mg/kg/min</td>
-            <td>{(totaal.koolhydraten / 1.44 / gewicht).toFixed(2)}</td>
-            <td>{((enteraal.koolhydraten / 1.44) / gewicht).toFixed(2)}</td>
-            <td>{((parenteraal.koolhydraten / 1.44) / gewicht).toFixed(2)}</td>
+            <td>{totaal.koolhydraten}</td>
+            <td>{enteraal.koolhydraten}</td>
+            <td>{parenteraal.koolhydraten}</td>
           </tr>
           <tr>
             <td>Eiwit</td>
             <td>gr/kg/dag</td>
-            <td>{(totaal.eiwitten / gewicht).toFixed(2)}</td>
-            <td>{(enteraal.eiwitten / gewicht).toFixed(2)}</td>
-            <td>{(parenteraal.eiwitten / gewicht).toFixed(2)}</td>
+            <td>{totaal.eiwitten}</td>
+            <td>{enteraal.eiwitten}</td>
+            <td>{parenteraal.eiwitten}</td>
           </tr>
   
           <tr>
             <td>Vet</td>
             <td>gr/kg/dag</td>
-            <td>{(totaal.vetten / gewicht).toFixed(2)}</td>
-            <td>{(enteraal.vetten / gewicht).toFixed(2)}</td>
-            <td>{(parenteraal.vetten / gewicht).toFixed(2)}</td>
+            <td>{totaal.vetten}</td>
+            <td>{enteraal.vetten}</td>
+            <td>{parenteraal.vetten}</td>
           </tr>
           
           <tr>
             <td>Natrium</td>
             <td>mmol/kg/dag</td>
-            <td>{(totaal.natrium / gewicht).toFixed(2)}</td>
-            <td>{(enteraal.natrium / gewicht).toFixed(2)}</td>
-            <td>{(parenteraal.natrium / gewicht).toFixed(2)}</td>
+            <td>{totaal.natrium}</td>
+            <td>{enteraal.natrium}</td>
+            <td>{parenteraal.natrium}</td>
           </tr>
   
           <tr>
             <td>Kalium</td>
             <td>mmol/kg/dag</td>
-            <td>{(totaal.kalium / gewicht).toFixed(2)}</td>
-            <td>{(enteraal.kalium / gewicht).toFixed(2)}</td>
-            <td>{(parenteraal.kalium / gewicht).toFixed(2)}</td>
+            <td>{totaal.kalium}</td>
+            <td>{enteraal.kalium}</td>
+            <td>{parenteraal.kalium}</td>
           </tr>
         </tbody>
       </Table>
