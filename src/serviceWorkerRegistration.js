@@ -31,7 +31,7 @@ const isLocalhost = Boolean(
       }
   
       window.addEventListener('load', () => {
-        const swUrl = `${publicUrl}/service-worker.js`;
+        const swUrl = `https://voor-wkz-2.vercel.app/service-worker.js`;
   
         if (isLocalhost) {
           // This is running on localhost. Let's check if a service worker still exists or not.
