@@ -16,5 +16,5 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "include": ["src", "public/server-worker.js"]
+  "include": ["src", "public/server-worker.js", "public/service-worker.js"]
 }
