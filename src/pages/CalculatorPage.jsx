@@ -6,6 +6,7 @@ import Switch from "@mui/joy/Switch";
 import { useState, useEffect } from "react";
 import Divider from '@mui/joy/Divider';
 import Table from '@mui/joy/Table';
+import Sheet from '@mui/joy/Sheet';
 import { berekenTotaal, berekenVoedingsWaardes, berekenenVoedingswaardesTabel } from '../logic/berekenenVoedingswaardes';
 import { getPatientData, storePatientData } from '../logic/localSave';
 import HomeIcon from '@mui/icons-material/Home';
@@ -50,6 +51,7 @@ export default function CalculatorPage(props) {
       patientGegevensOphalen();
     }
   }, [])
+
 
   //Als de voedingsLijst veranderd, moet de berekening van de voedingswaardes opnieuw gedaan worden.
   useEffect(() => {
@@ -103,10 +105,14 @@ export default function CalculatorPage(props) {
       <AlertModal open={openAlertGrens} onClose={setOpenAlertGrens} onConfirm={null} >Er is een grenswaarde bereikt. Let op dat je de patiënt niet teveel vocht geeft</AlertModal>
       
       <SuccessModal open={openSuccess} gewicht={gewicht} onClose={setOpenSuccess} onClick={() => navigate('/')} >
-        <Typography level="h3" >Voedingswaarden:</Typography>
-        <Button variant="plain" color="neutral" onClick={handleKopieren}>
-          Kopiëren naar klembord
-        </Button>
+        <div className="success-modal-container">
+          <Typography level="h3" >Voedingswaarden:</Typography>
+          <Button variant="plain" color="neutral" onClick={handleKopieren}>
+            Kopiëren naar klembord
+          </Button>
+        </div>
+        {renderTabel(voedingswaardeTabel)}
+        
       </SuccessModal>
       
       <div className="header">        
@@ -158,7 +164,7 @@ export default function CalculatorPage(props) {
         Voedingswaardes:
       </Typography>
       
-      {renderTable(voedingswaardeTabel)}
+      {renderTabel(voedingswaardeTabel)}
     </div>
   );
 
@@ -169,6 +175,7 @@ export default function CalculatorPage(props) {
       setGewicht(gewichtInt);
     } else {
       setGewicht(null);
+      setGewichtInput("");
     }
   }
 
@@ -256,104 +263,50 @@ Natrium Intake: ${voedingswaardeLijst.totaal.koolhydraten} mmol/kg/d`;
 }
 
 //Tijdelijk, totdat de berekenen methode is uitgewerkt en dit makkelijker gemapt kan worden
-export function renderTable(voedingswaardes) {
-  var enteraal = voedingswaardes.enteraal;
-  var parenteraal = voedingswaardes.parenteraal;
-  var totaal = voedingswaardes.totaal;
+export function renderTabel(tabelWaardes) {
+  var enteraal = tabelWaardes.enteraal;
+  var parenteraal = tabelWaardes.parenteraal;
+  var totaal = tabelWaardes.totaal;
+
+  const tableRows = [
+    { label: 'Vocht', subLabel: 'totaal/dag', key: 'vochtTotaal' },
+    { subLabel: 'mL/kg/dag', key: 'vochtKGPerDag', bold: true },
+    { subLabel: 'mL/kg/uur', key: 'vochtKGPerUur' },
+    { label: 'Calorisch', subLabel: 'totaal/dag', key: 'calorieënTotaal' },
+    { subLabel: 'kcal/kg/dag', key: 'calorieënPerKG', bold: true },
+    { label: 'Koolhydraat', subLabel: 'mg/kg/min', key: 'koolhydraten', bold: true },
+    { label: 'Eiwit', subLabel: 'gr/kg/dag', key: 'eiwitten' },
+    { label: 'Vet', subLabel: 'gr/kg/dag', key: 'vetten' },
+    { label: 'Natrium', subLabel: 'mmol/kg/dag', key: 'natrium' },
+    { label: 'Kalium', subLabel: 'mmol/kg/dag', key: 'kalium' },
+  ];
+  
     return (
-      <Table aria-label="basic table" borderAxis="none" sx={{ '& tr > *:not(:first-child)': { textAlign: 'right' } }}>
-        <thead>
-          <tr>
-            <th></th>
-            <th></th>
-            <th>Totaal</th>
-            <th>Enteraal</th>
-            <th>Parenteraal</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Vocht</td>
-            <td>totaal/dag</td>
-            <td>{totaal.vochtTotaal}</td>
-            <td>{enteraal.vochtTotaal}</td>
-            <td>{parenteraal.vochtTotaal}</td>
-          </tr>
-          <tr className="tabel-dikgedrukt" >
-            <td></td>
-            <td>mL/kg/dag</td>
-            <td>{totaal.vochtKGPerDag}</td>
-            <td>{enteraal.vochtKGPerDag}</td>
-            <td>{parenteraal.vochtKGPerDag}</td>
-          </tr>
-          <tr>
-            <td></td>
-            <td>mL/kg/uur</td>
-            <td>{totaal.vochtKGPerUur}</td>
-            <td>{enteraal.vochtKGPerUur}</td>
-            <td>{parenteraal.vochtKGPerUur}</td>
-          </tr>
-          <tr>
-            <td colspan="5"></td>
-          </tr>
-  
-          <tr>
-            <td>Calorisch</td>
-            <td>totaal/dag</td>
-            <td>{totaal.calorieënTotaal}</td>
-            <td>{enteraal.calorieënTotaal}</td>
-            <td>{parenteraal.calorieënTotaal}</td>
-          </tr>
-          <tr className="tabel-dikgedrukt" >
-            <td></td>
-            <td>kcal/kg/dag</td>
-            <td>{totaal.calorieënPerKG}</td>
-            <td>{enteraal.calorieënPerKG}</td>
-            <td>{parenteraal.calorieënPerKG}</td>
-          </tr>
-          <tr>
-             <td colspan="5"></td>
-          </tr>
-  
-          <tr className="tabel-dikgedrukt" >
-            <td className="tabel-dikgedrukt" >Koolhydraat</td>
-            <td>mg/kg/min</td>
-            <td>{totaal.koolhydraten}</td>
-            <td>{enteraal.koolhydraten}</td>
-            <td>{parenteraal.koolhydraten}</td>
-          </tr>
-          <tr>
-            <td>Eiwit</td>
-            <td>gr/kg/dag</td>
-            <td>{totaal.eiwitten}</td>
-            <td>{enteraal.eiwitten}</td>
-            <td>{parenteraal.eiwitten}</td>
-          </tr>
-  
-          <tr>
-            <td>Vet</td>
-            <td>gr/kg/dag</td>
-            <td>{totaal.vetten}</td>
-            <td>{enteraal.vetten}</td>
-            <td>{parenteraal.vetten}</td>
-          </tr>
-          
-          <tr>
-            <td>Natrium</td>
-            <td>mmol/kg/dag</td>
-            <td>{totaal.natrium}</td>
-            <td>{enteraal.natrium}</td>
-            <td>{parenteraal.natrium}</td>
-          </tr>
-  
-          <tr>
-            <td>Kalium</td>
-            <td>mmol/kg/dag</td>
-            <td>{totaal.kalium}</td>
-            <td>{enteraal.kalium}</td>
-            <td>{parenteraal.kalium}</td>
-          </tr>
-        </tbody>
-      </Table>
+      <Sheet sx={{height: "100%", overflow: "auto"}}>
+        <Table aria-label="basic table" borderAxis="none" sx={{ '& tr > *:not(:first-child)': { textAlign: 'right' } }}>
+          <thead>
+            <tr>
+              <th></th>
+              <th></th>
+              <th>Totaal</th>
+              <th>Enteraal</th>
+              <th>Parenteraal</th>
+            </tr>
+          </thead>
+          <tbody>
+            {tableRows.map((row, index) => {
+              return (
+                <tr key={index} className={row.bold ? 'tabel-dikgedrukt' : ''}>
+                  <td className={row.bold ? 'tabel-dikgedrukt' : ''}>{row.label}</td>
+                  <td>{row.subLabel}</td>
+                  <td>{totaal[row.key]}</td>
+                  <td>{enteraal[row.key]}</td>
+                  <td>{parenteraal[row.key]}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </Table>
+      </Sheet>
     );
 }
